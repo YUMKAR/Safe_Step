@@ -1,3 +1,5 @@
+#Config.py
+
 import os
 
 # --- 카메라 및 YOLO 설정 ---

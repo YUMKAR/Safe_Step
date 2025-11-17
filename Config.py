@@ -1,3 +1,5 @@
+#Config.py
+
 import os
 
 # --- 카메라 및 YOLO 설정 ---
@@ -10,6 +12,8 @@ YOLO_MODEL_PATH = "yolov8n-human.pt"
 CONF_THRESHOLD = 0.6
 FACE_TRACK_THRESHOLD = 30
 MIN_FACE_SIZE = 60
+
+MOVEMENT_TRIGGER_THRESHOLD = 20
 
 # --- 이동 감지 및 MP3 설정 ---
 MOVEMENT_THRESHOLD = 100

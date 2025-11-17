@@ -19,13 +19,15 @@ class SerialMonitor:
             time.sleep(2)
             print(f"[Serial] {SERIAL_PORT} 연결 성공. 데이터 수신 시작...\n")
 
-            # 데이터 파싱 패턴: H: % , T: C , L: Lux
-            pattern = re.compile(r"H:\s*(\d+\.?\d*)%\s*,\s*T:\s*(\d+\.?\d*)C\s*,\s*L:\s*(\d+)")
-
+            # 데이터 파싱 패턴: H: % , T: C , L: Lux , R: rain 값
+            pattern = re.compile(
+                r"H:\s*(\d+\.?\d*)%\s*,\s*T:\s*(\d+\.?\d*)C\s*,\s*L:\s*(\d+)\s*,\s*R:(\d+)"
+            )
+            
             while True:
                 line = self.ser.readline().decode('utf-8', errors='ignore').strip()
                 if not line:
-                    time.sleep(0.1) 
+                    time.sleep(0.1)
                     continue
 
                 match = pattern.search(line)
@@ -34,6 +36,7 @@ class SerialMonitor:
                         self.sensor_data['humidity'] = float(match.group(1))
                         self.sensor_data['temperature'] = float(match.group(2))
                         self.sensor_data['light'] = int(match.group(3))
+                        self.sensor_data['rain'] = int(match.group(4))  # ★ rain 값 추가
                     except ValueError as ve:
                         print(f"[Serial 파싱 오류] 숫자 변환 실패: {ve}, 데이터: {line}")
                 
