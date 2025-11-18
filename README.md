@@ -35,6 +35,9 @@
 ```
 SafeStep/
 ├─ MainApp.py
+├─ SerialMonitor.py
+├─ YoloDetector.py
+├─ Config.py
 ├─ weights/
 │   └─ yolo_model.pt
 ├─ Arduino/
