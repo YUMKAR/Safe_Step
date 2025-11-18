@@ -17,10 +17,22 @@ from YoloDetector import YoloDetector
 
 app_server = Bottle()
 
+# -------------------- CORS ENABLE --------------------
+@app_server.hook('after_request')
+def enable_cors():
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With'
+
+@app_server.route('/', method=['OPTIONS'])
+def options_handler():
+    return {}
+# ------------------------------------------------------
+
 
 shared_sensor_data = {"humidity":0.0, "temperature":0.0, "rain":900, "light":0, "lock": threading.Lock()}
 
-@app_server.route('/')
+@app_server.route('/', method='GET')
 def send_sensor():
     with threading.Lock():
         data = {
@@ -33,8 +45,10 @@ def send_sensor():
     response.content_type = 'application/json'
     return json.dumps(data)
 
+
+
 def run_server():
-    run(app_server, host='0.0.0.0', port=8080, debug=True)
+    run(app_server, host='0.0.0.0', port=8000, debug=True)
 
 
 class MainApp:
